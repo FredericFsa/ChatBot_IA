@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat IA - Mode Sombre</title>
+  <link id="theme-link" rel="stylesheet" href="style_sombre.css">
+
+</head>
+<body>
+  <div class="theme-toggle">
+  <button onclick="toggleTheme()">🌙 / ☀️ Changer de thème</button>
+  </div>
+  
+  <img src="splash-screen.png" id="logo" alt="Logo">
+ 
+
+  <h2>🤖 Chat IA avec Voix</h2>
+
+  <label for="model-select">🧠 Modèle IA :</label>
+  <select id="model-select">
+  <option value="openchat/openchat-3.5">OpenChat 3.5 (gratuit)</option>
+  <option value="gryphe/mythomist-7b">MythoMist 7B (gratuit)</option>
+  </select><br>
+  
+  <label for="voice-select">🎤 Choisir la voix :</label>
+  <select id="voice-select"></select>
+  
+  <label><input type="checkbox" id="voice-toggle" checked> Activer la voix</label>
+
+    <div id="messages"></div>
+    <input type="text" id="user-input" placeholder="Pose une question..." onkeydown="handleInput(event)">
+   
+  <script src="chat_logic_tts.js"></script>
+  <script>
+function toggleTheme() {
+  const themeLink = document.getElementById("theme-link");
+  const currentTheme = themeLink.getAttribute("href");
+
+  if (currentTheme === "style_sombre.css") {
+    themeLink.setAttribute("href", "style_clair.css");
+  } else {
+    themeLink.setAttribute("href", "style_sombre.css");
+  }
+}
+</script>
+
+</body>
+</html>
