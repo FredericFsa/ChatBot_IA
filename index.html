@@ -21,6 +21,10 @@
   <select id="model-select">
   <option value="openchat/openchat-3.5">OpenChat 3.5 (gratuit)</option>
   <option value="gryphe/mythomist-7b">MythoMist 7B (gratuit)</option>
+  <option value="mistralai/mistral-small-3.2-24b-instruct:free">mistralai/mistral-small-3.2-24b-instruct:free</option>
+  <option value="mistralai/mistral-small-3.2-24b-instruct-2506">mistralai/mistral-small-3.2-24b-instruct-2506</option>
+  <option value="mistralai/Mistral-Small-3.2-24B-Instruct-2506">mistralai/Mistral-Small-3.2-24B-Instruct-2506</option>
+  <option value="Mistral: Mistral Small 3.2 24B (free)">Mistral: Mistral Small 3.2 24B (free)</option>
   </select><br>
   
   <label for="voice-select">🎤 Choisir la voix :</label>
@@ -29,6 +33,7 @@
   <label><input type="checkbox" id="voice-toggle" checked> Activer la voix</label>
 
     <div id="messages"></div>
+	<div id="loading-indicator">⏳ L'IA réfléchit...</div>
     <input type="text" id="user-input" placeholder="Pose une question..." onkeydown="handleInput(event)">
    
   <script src="chat_logic_tts.js"></script>

@@ -1,13 +1,8 @@
-
 let botResponses = {};
 let voiceEnabled = true;
 let voices = [];
 let selectedVoice = null;
 let voiceReady = false;
-
-// 🔑 À remplacer par ta clé OpenRouter
-let OPENROUTER_API_KEY = "";
-fetch("key_openrouter.txt").then(r => r.text()).then(k => OPENROUTER_API_KEY = k.trim());
 
 function populateVoiceList() {
   voices = window.speechSynthesis.getVoices();
@@ -77,33 +72,32 @@ function handleInput(e) {
       displayMessage("🤖", reply, "bot");
       if (voiceEnabled) speak(reply);
     } else {
-      fetch("https://openrouter.ai/api/v1/chat/completions", {
+      // ✅ Appel via serveur local sécurisé
+	  document.getElementById("loading-indicator").style.display = "block";
+      fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": "http://localhost",
-          "X-Title": "ChatBot IA Voix"
-        },
-        body: JSON.stringify({
-          model: "mistralai/mistral-7b-instruct",
-          messages: [
-            { role: "system", content: "Tu es un assistant utile, tu parles toujours en français." },
-            { role: "user", content: message }
-          ]
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
       })
       .then(res => res.json())
       .then(data => {
-        const reply = data?.choices?.[0]?.message?.content || "Je n'ai pas compris.";
-        displayMessage("🤖", reply, "bot");
-        if (voiceEnabled) speak(reply);
-      })
+  console.log("📨 Réponse API :", data); // ← Log utile
+  const reply =
+    data?.choices?.[0]?.message?.content ||
+    data?.response ||
+    data?.error?.message ||
+    "❌ Réponse invalide du serveur.";
+  displayMessage("🤖", reply, "bot");
+  if (voiceEnabled) speak(reply);
+  document.getElementById("loading-indicator").style.display = "none";
+})
+
       .catch(err => {
-        const errorMsg = "Erreur avec l'API OpenRouter.";
+        const errorMsg = "Erreur avec le serveur.";
         displayMessage("🤖", errorMsg, "bot");
         if (voiceEnabled) speak(errorMsg);
-        console.error("❌ Erreur API :", err);
+        console.error("❌ Erreur serveur :", err);
+
       });
     }
   }
